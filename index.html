@@ -163,21 +163,10 @@
                         <button type="button" onclick="calculateBoards()"
                             class="bg-blue-500 text-white p-2 rounded">Рассчитать</button>
                     </form>
-
-
-                    <!-- Результаты расчета -->
-                    <div id="results" class="mt-8 hidden">
-                        <h3 class="text-lg font-semibold mb-4">Результаты расчета</h3>
-                        <div id="orderSummary" class="mb-4"></div>
-                        <button onclick="saveOrder()" class="bg-green-500 text-white p-2 rounded">Сохранить бланк
-                            заказа</button>
-                    </div>
                 </div>
 
                 <br>
 
-                <!-- Результаты расчета --> <!-- Результаты расчета --> <!-- Результаты расчета -->
-                <!-- Результаты расчета --> <!-- Результаты расчета -->
                 <div id="showResultCalculation" class="bg-gray-100 p-25 mt-10 hidden">
                     <div class="max-w-lg mx-auto bg-white p-6 rounded shadow-md">
                         <h2 class="text-2xl font-bold mb-4">Бланк заказа</h2>
@@ -320,10 +309,16 @@
                                 <input type="text" id="totalOrderCost" name="totalOrderCost"
                                     class="mt-1 p-2 border rounded w-full" required>
                             </div>
+
+                            <div id="results" class="mt-8 hidden">
+                                <div id="orderSummary" class="mb-4"></div>
+                                <button type = "button" onclick="saveOrder()" class="bg-green-500 text-white p-2 rounded">Сохранить
+                                    бланк
+                                    заказа</button>
+                            </div>
                         </form>
                     </div>
                 </div>
-                <!-- Результаты расчета --> <!-- Результаты расчета --> <!-- Результаты расчета -->
 
                 <!-- Окно для отображения сохраненных данных -->
                 <div id="savedOrder" class="mt-8 hidden">
@@ -552,16 +547,17 @@
             const boardsPerCubicMeter = 1 / boardVolume;
             const squareMetersPerCubic = boardThickness * boardWidth;
 
-            const totalFirstGradeCost = firstGradeCost * boardVolume;
+            const totalFirstGradeCost = firstGradeCost * boardVolume * 100;
 
             const boardVolumeTwo = areaSize / (boardThicknessTwo * boardWidthTwo);
             const boardsPerCubicMeterTwo = 1 / boardVolumeTwo;
             const squareMetersPerCubicTwo = boardThicknessTwo * boardWidthTwo;
 
-            const totalSecondGradeCost = secondGradeCost * boardVolumeTwo * (clientPercentage / 100);
+            const totalSecondGradeCost = secondGradeCost * boardVolumeTwo * (clientPercentage / 100) * 100;
             const totalOrderCost = totalFirstGradeCost + totalSecondGradeCost;
 
-            const totalCount = (areaSize * clientPercentage) / (boardVolume * (clientPercentage - 1) + boardVolumeTwo);
+            const totalCount = Math.ceil((areaSize * clientPercentage) / ((boardVolume * clientPercentage) - (boardVolume * (clientPercentage - 1)) + boardVolumeTwo));
+
 
 
             document.getElementById('areaSizeRes').value = areaSize;
